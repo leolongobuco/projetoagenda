@@ -21,7 +21,7 @@ class Contato {
   async register() {
     this.valida()
     if (this.errors.length > 0) return;
-    await ContatoModel.create(this.body);
+    this.contato = await ContatoModel.create(this.body);
   }
 
   valida() {
@@ -49,12 +49,12 @@ class Contato {
       email: this.body.email,
       telefone: this.body.telefone
     };
-  } 
+  }
 
   async buscaPorId(id) {
-    if(typeof id !== "string") return; 
-    const user = await ContatoModel.findById(id); 
-    return user; 
+    if (typeof id !== "string") return;
+    const user = await ContatoModel.findById(id);
+    return user;
   }
 }
 
