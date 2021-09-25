@@ -27,15 +27,19 @@ exports.register = async (req, res) => {
 };
 
 exports.editIndex = async (req, res) => {
-  if (!req.params.id) return res.render("404");
-  const contato = new Contato(req.body);
+  try {
+    if (!req.params.id) return res.render("404");
+    const contato = new Contato(req.body);
 
-  const user = await contato.buscaPorId(req.params.id);
-  if (!user) return res.render("404");
+    const user = await contato.buscaPorId(req.params.id);
+    if (!user) return res.render("404");
 
-  res.render("contato", {
-    contato: user,
-  });
+    res.render("contato", {
+      contato: user,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 exports.edit = async (req, res) => {
@@ -46,7 +50,7 @@ exports.edit = async (req, res) => {
 
     if (contato.errors.length > 0) {
       req.flash("errors", contato.errors);
-      req.session.save(() => res.redirect("/contato"));
+      req.session.save(() => res.redirect(`/contato/${contato.contato._id}`));
       return;
     }
 
@@ -56,5 +60,20 @@ exports.edit = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.render("404");
+  }
+};
+exports.delete = async (req, res) => {
+  try {
+    if (!req.params.id) return res.render("404");
+    const contato = new Contato(req.body);
+
+    const user = await contato.delete(req.params.id);
+    if (!user) return res.render("404");
+
+    req.flash("success", "Contato deletado com sucesso");
+    req.session.save(() => res.redirect("/"));
+    return;
+  } catch (error) {
+    console.log(error);
   }
 };
