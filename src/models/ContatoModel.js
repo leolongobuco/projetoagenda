@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const validator = require("validator");
 
 const ContatoSchema = new mongoose.Schema({
@@ -9,7 +9,7 @@ const ContatoSchema = new mongoose.Schema({
   created_at: { type: Date, default: Date.now },
 });
 
-const ContatoModel = mongoose.model('Contato', ContatoSchema);
+const ContatoModel = mongoose.model("Contato", ContatoSchema);
 
 class Contato {
   constructor(body) {
@@ -19,7 +19,7 @@ class Contato {
   }
 
   async register() {
-    this.valida()
+    this.valida();
     if (this.errors.length > 0) return;
     this.contato = await ContatoModel.create(this.body);
   }
@@ -29,17 +29,21 @@ class Contato {
 
     // Validação
     // O e-mail precisa ser válido
-    if (this.body.email && !validator.isEmail(this.body.email)) this.errors.push('E-mail inválido');
+    if (this.body.email && !validator.isEmail(this.body.email)) {
+      this.errors.push("E-mail inválido");
+    }
     if (!this.body.nome) this.errors.push("O nome é um campo obrigatório");
     if (!this.body.email && !this.body.telefone) {
-      this.errors.push("Adicione pelo menos um método de contato: e-mail ou telefone");
+      this.errors.push(
+        "Adicione pelo menos um método de contato: e-mail ou telefone"
+      );
     }
   }
 
   cleanUp() {
     for (const key in this.body) {
-      if (typeof this.body[key] !== 'string') {
-        this.body[key] = '';
+      if (typeof this.body[key] !== "string") {
+        this.body[key] = "";
       }
     }
 
@@ -47,7 +51,7 @@ class Contato {
       nome: this.body.nome,
       sobrenome: this.body.sobrenome,
       email: this.body.email,
-      telefone: this.body.telefone
+      telefone: this.body.telefone,
     };
   }
 

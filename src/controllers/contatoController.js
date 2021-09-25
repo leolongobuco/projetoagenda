@@ -1,7 +1,7 @@
 const Contato = require("../models/ContatoModel");
 exports.index = (req, res) => {
   res.render("contato", {
-    contato: {}
+    contato: {},
   });
 };
 
@@ -12,7 +12,7 @@ exports.register = async (req, res) => {
 
     if (contato.errors.length > 0) {
       req.flash("errors", contato.errors);
-      req.session.save(() => res.redirect("/contato"))
+      req.session.save(() => res.redirect("/contato"));
       return;
     }
 
@@ -34,5 +34,5 @@ exports.editIndex = async (req, res) => {
 
   res.render("contato", {
     contato: user,
-  })
-}
+  });
+};

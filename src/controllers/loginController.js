@@ -1,13 +1,14 @@
+/* eslint-disable no-useless-return */
 const Login = require("../models/LoginModel");
 
 exports.index = (req, res) => {
-  if(req.session.user) return res.render("login-logado");
+  if (req.session.user) return res.render("login-logado");
   return res.render("login");
 };
 
 exports.register = async (req, res) => {
   try {
-    const login = new Login(req.body)
+    const login = new Login(req.body);
     await login.register();
 
     if (login.errors.length > 0) {
@@ -29,7 +30,7 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
   try {
-    const login = new Login(req.body)
+    const login = new Login(req.body);
     await login.login();
 
     if (login.errors.length > 0) {
@@ -55,4 +56,4 @@ exports.login = async (req, res) => {
 exports.logout = (req, res) => {
   req.session.destroy();
   res.redirect("/");
-}
+};
