@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-return */
 const mongoose = require("mongoose");
 const validator = require("validator");
 
@@ -59,6 +60,15 @@ class Contato {
     if (typeof id !== "string") return;
     const user = await ContatoModel.findById(id);
     return user;
+  }
+
+  async edit(id) {
+    this.valida();
+    if (typeof id !== "string") return;
+    if (this.errors.length > 0) return;
+    this.contato = await ContatoModel.findByIdAndUpdate(id, this.body, {
+      new: true,
+    });
   }
 }
 
